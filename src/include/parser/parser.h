@@ -38,4 +38,8 @@ extern List *raw_parser(const char *str);
 extern List *SystemFuncName(char *name);
 extern TypeName *SystemTypeName(char *name);
 
+/* Hook for intercepting parse query tree */
+typedef List * (*raw_parser_hook_type) (const char *str);
+extern PGDLLIMPORT raw_parser_hook_type raw_parser_hook;
+
 #endif							/* PARSER_H */

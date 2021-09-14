@@ -25,6 +25,9 @@
 #include "parser/parser.h"
 
 
+/* Hook for intercepting parse query tree */
+raw_parser_hook_type raw_parser_hook = NULL;
+
 /*
  * raw_parser
  *		Given a query in string form, do lexical and grammatical analysis.
@@ -35,6 +38,10 @@
 List *
 raw_parser(const char *str)
 {
+	if (raw_parser_hook)
+	{
+		return (*raw_parser_hook)(str);
+	}
 	core_yyscan_t yyscanner;
 	base_yy_extra_type yyextra;
 	int			yyresult;
